@@ -204,40 +204,41 @@ int main(int, char **)
 }
 ```
 ## Output:
-> is_void<int>: 0
-> is_void<void const>: 1
-> is_void<const void>: 1
-> is_void<void>: 1
-> 
-> is_same<int,void>: 0
-> is_same<int,int>: 1
-> 
-> is_one_of<void, int, char, double>: 0
-> is_one_of<bool, void, int, char, double, void>: 0
-> is_one_of<void, int, char, double, void>: 1
-> 
-> is_unique<void, int, char, double>: 1
-> is_unique<bool, void, int, char, double, void>: 0
-> is_unique<void, int, char, double, void>: 0
-> 
-> has_member_test_v1<string>: 0
-> has_member_test_v1<test_struct>: 1
-> has_member_test_v2<string>: 0
-> has_member_test_v2<test_struct>: 1
-> has_member_test_v3<string>: 0
-> has_member_test_v3<test_struct>: 1
-> 
-> is_pointer_v1::check(p1): 0
-> is_pointer_v1::check(p2): 1
-> is_pointer_v2<typeof(p1)>: 0
-> is_pointer_v2<typeof(p2)>: 1
-> is_pointer_v3<typeof(p1)>: 0
-> is_pointer_v3<typeof(p2)>: 1
-> is_pointer_v4<typeof(p1)>: 0
-> is_pointer_v4<typeof(p2)>: 1
-> 
-> getter<0>::get(t): 10, getter<1>::get(t): a, getter<2>::get(t): 3.14
+```
+is_void<int>: 0
+is_void<void const>: 1
+is_void<const void>: 1
+is_void<void>: 1
 
+is_same<int,void>: 0
+is_same<int,int>: 1
+ 
+is_one_of<void, int, char, double>: 0
+is_one_of<bool, void, int, char, double, void>: 0
+is_one_of<void, int, char, double, void>: 1
+ 
+is_unique<void, int, char, double>: 1
+is_unique<bool, void, int, char, double, void>: 0
+is_unique<void, int, char, double, void>: 0
+
+has_member_test_v1<string>: 0
+has_member_test_v1<test_struct>: 1
+has_member_test_v2<string>: 0
+has_member_test_v2<test_struct>: 1
+has_member_test_v3<string>: 0
+has_member_test_v3<test_struct>: 1
+
+is_pointer_v1::check(p1): 0
+is_pointer_v1::check(p2): 1
+is_pointer_v2<typeof(p1)>: 0
+is_pointer_v2<typeof(p2)>: 1
+is_pointer_v3<typeof(p1)>: 0
+is_pointer_v3<typeof(p2)>: 1
+is_pointer_v4<typeof(p1)>: 0
+is_pointer_v4<typeof(p2)>: 1
+
+getter<0>::get(t): 10, getter<1>::get(t): a, getter<2>::get(t): 3.14
+```
 ## References
   
 CppCon 2014: Walter E. Brown "Modern Template Metaprogramming: A Compendium, Part I"
