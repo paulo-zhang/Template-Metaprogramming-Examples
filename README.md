@@ -2,7 +2,7 @@
 
 Let's get started from easy to more complex.
 
-## Implement is_void<T>
+## Implement is_void\<T\>
 `
 template<typename T> struct is_void{
 	enum{value = false};
@@ -17,7 +17,7 @@ template<> struct is_void<const void>{
 };
 `
 
-## Implement is_same<T>
+## Implement is_same\<T\>
 `
 template<class T, class U> struct is_same{ // primary template
 	enum{value = false};
@@ -86,7 +86,7 @@ template<typename T>
 struct has_member_test_v3<T, void_t<decltype(&T::test)>> { // 3. The redundant typed template parameter accepts a function pointer.
 	enum{value = true};
 };
-
+`
 ## 4 ways to check whether a type is a pointer
 `
 struct is_pointer_v1 {
@@ -189,7 +189,7 @@ int main(int, char **)
 }
 `
 ## Output:
-  
+`
 is_void<int>: 0
 is_void<void const>: 1
 is_void<const void>: 1
@@ -223,7 +223,7 @@ is_pointer_v4<typeof(p1)>: 0
 is_pointer_v4<typeof(p2)>: 1
 
 getter<0>::get(t): 10, getter<1>::get(t): a, getter<2>::get(t): 3.14
-  
+`
 ## References
   
 CppCon 2014: Walter E. Brown "Modern Template Metaprogramming: A Compendium, Part I"
