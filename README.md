@@ -1,6 +1,6 @@
 # C++ Template Metaprogramming Examples
 
-Most of the examples below use SPINAE to achieve template metaprogramming.
+Most of the examples below use SFINAE to achieve template metaprogramming.
 
 Let's get started from easy to more complex.
 
