@@ -114,7 +114,7 @@ struct is_pointer_v2 {
 	enum{value = decltype(check(declval<T>()))::value}; // declval<T>() to create the object, and pass it to the method.
 };
 ```
-### 3. Use template specilization for pointer
+### 3. Use template specilization for the pointer
 ```
 template<typename T> struct is_pointer_v3{enum{value = false};};
 template<typename T> struct is_pointer_v3<T*>{enum{value = true};}; // template specilization.
