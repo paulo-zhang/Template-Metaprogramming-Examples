@@ -5,7 +5,7 @@ Most of the examples below use SFINAE to achieve template metaprogramming.
 Let's get started from easy to more complex.
 
 ## Implement is_void\<T\>
-```
+```C++
 template<typename T> struct is_void{
 	enum{value = false};
 };
@@ -20,7 +20,7 @@ template<> struct is_void<const void>{
 ```
 
 ## Implement is_same\<T\>
-```
+```C++
 template<class T, class U> struct is_same{ // primary template
 	enum{value = false};
 };
@@ -29,7 +29,7 @@ template<class T> struct is_same<T, T>{
 };
 ```
 ## Check whether a type is in a list
-```
+```C++
 template<typename T, typename ...Ts> struct is_one_of;
 template<typename T, typename ...Ts> struct is_one_of<T, T, Ts...>{
 	enum{value = true};
@@ -45,7 +45,7 @@ template<typename T, typename P, typename ...Ts> struct is_one_of<T, P, Ts...>{
 ```
 
 ## Check whether a list of types is unique
-```
+```C++
 template<typename T, typename ...Ts> struct is_unique;
 template<typename T, typename ...Ts> struct is_unique<T, T, Ts...>{
 	enum{value = false};
@@ -63,7 +63,7 @@ template<typename T, typename P, typename ...Ts> struct is_unique<T, P, Ts...>{
 ## 3 ways to check whether there is a public method called 'test'
 
 ### 1. A NULL paramter could be accepted by a method as a pointer
-```
+```C++
 template<typename T> struct has_member_test_v1 {
 	private:
 	template<typename U>
@@ -75,7 +75,7 @@ template<typename T> struct has_member_test_v1 {
 };
 ```
 ### 2. Use a redundant default template parameter
-```
+```C++
 template<typename T> struct has_member_test_v2 {
 	private:
 	static constexpr false_type check(...); // Only yield return type, no need to implement.
@@ -86,7 +86,7 @@ template<typename T> struct has_member_test_v2 {
 };
 ```
 ### 3. Remove checking method from 2.
-```
+```C++
 template<typename T, typename _ = void> // 3. A redundant typed template parameter.
 struct has_member_test_v3 { enum{value = false}; };
 
@@ -97,14 +97,14 @@ struct has_member_test_v3<T, void_t<decltype(&T::test)>> { // 3. The redundant t
 ```
 ## 4 ways to check whether a type is a pointer
 ### 1. Use function to check object directly
-```
+```C++
 struct is_pointer_v1 {
 	static constexpr bool check(...){return false;}
 	template<typename U> static constexpr bool check(U*) {return true;} // 1. Function check object.
 };
 ```
 ### 2. Use declval\<T\>() to create the object, and pass it to the method.
-```
+```C++
 template<typename T>
 struct is_pointer_v2 {
 	private:
@@ -115,18 +115,18 @@ struct is_pointer_v2 {
 };
 ```
 ### 3. Use template specilization for the pointer
-```
+```C++
 template<typename T> struct is_pointer_v3{enum{value = false};};
 template<typename T> struct is_pointer_v3<T*>{enum{value = true};}; // template specilization.
 ```
 ### 4. Try to dereference the type
-```
+```C++
 template<typename T, typename = void> struct is_pointer_v4{enum{value = false};};
 template<typename T> struct is_pointer_v4<T, void_t<decltype(*declval<T>())>>{enum{value = true};}; // Try to dereference the type, and change the type to void type so that we don't need to supply the parameter.
 ```
 
 ## Implement a Tuple type
-```
+```C++
 template<typename T, typename ... Args>
 struct Tuple {
 	Tuple(T t, Args... args) :value(t), rest(args...){}
@@ -159,7 +159,7 @@ struct getter<0> {a
 ```
 
 ## Test code
-```
+```C++
 #include <iostream>
   
 int main(int, char **)
