@@ -3,7 +3,7 @@
 Let's get started from easy to more complex.
 
 ## Implement is_void\<T\>
-`
+```
 template<typename T> struct is_void{
 	enum{value = false};
 };
@@ -15,19 +15,19 @@ template<> struct is_void<void>{
 template<> struct is_void<const void>{
 	enum{value = true};
 };
-`
+```
 
 ## Implement is_same\<T\>
-`
+```
 template<class T, class U> struct is_same{ // primary template
 	enum{value = false};
 };
 template<class T> struct is_same<T, T>{
 	enum{value = true};
 };
-`
+```
 ## Check whether a type is in a list
-`
+```
 template<typename T, typename ...Ts> struct is_one_of;
 template<typename T, typename ...Ts> struct is_one_of<T, T, Ts...>{
 	enum{value = true};
@@ -40,10 +40,10 @@ template<typename T> struct is_one_of<T>{
 template<typename T, typename P, typename ...Ts> struct is_one_of<T, P, Ts...>{
 	enum{value = is_one_of<T, Ts...>::value}; // Recursive call.
 };
-`
+```
 
 ## Check whether a list of types is unique
-`
+```
 template<typename T, typename ...Ts> struct is_unique;
 template<typename T, typename ...Ts> struct is_unique<T, T, Ts...>{
 	enum{value = false};
@@ -56,10 +56,10 @@ template<typename T> struct is_unique<T>{
 template<typename T, typename P, typename ...Ts> struct is_unique<T, P, Ts...>{
 	enum{value = is_unique<T, Ts...>::value && is_unique<P, Ts...>::value}; // Recursive call.
 };
-`
+```
 
 ## 3 ways to check whether there is a public method called 'test'
-`
+```
 template<typename T> struct has_member_test_v1 {
 	private:
 	template<typename U>
@@ -86,9 +86,9 @@ template<typename T>
 struct has_member_test_v3<T, void_t<decltype(&T::test)>> { // 3. The redundant typed template parameter accepts a function pointer.
 	enum{value = true};
 };
-`
+```
 ## 4 ways to check whether a type is a pointer
-`
+```
 struct is_pointer_v1 {
 	static constexpr bool check(...){return false;}
 	template<typename U> static constexpr bool check(U*) {return true;} // 1. Function check object.
@@ -108,10 +108,10 @@ template<typename T> struct is_pointer_v3<T*>{enum{value = true};}; // template 
 
 template<typename T, typename = void> struct is_pointer_v4{enum{value = false};};
 template<typename T> struct is_pointer_v4<T, void_t<decltype(*declval<T>())>>{enum{value = true};}; // Try to dereference the type, and change the type to void type so that we don't need to supply the parameter.
-`
+```
 
 ## Implement a Tuple type
-`
+```
 template<typename T, typename ... Args>
 struct Tuple {
 	Tuple(T t, Args... args) :value(t), rest(args...){}
@@ -141,10 +141,10 @@ struct getter<0> {a
 		return t.value;
 	}
 };
-`
+```
 
 ## Test code
-`
+```
 #include <iostream>
   
 int main(int, char **)
@@ -187,9 +187,9 @@ int main(int, char **)
     std::cout << "getter<0>::get(t): " << getter<0>::get(t) << ", getter<1>::get(t): " << getter<1>::get(t) << ", getter<2>::get(t): " << getter<2>::get(t) << "\n";
     return 0;
 }
-`
+```
 ## Output:
-`
+```
 is_void<int>: 0
 is_void<void const>: 1
 is_void<const void>: 1
@@ -223,7 +223,7 @@ is_pointer_v4<typeof(p1)>: 0
 is_pointer_v4<typeof(p2)>: 1
 
 getter<0>::get(t): 10, getter<1>::get(t): a, getter<2>::get(t): 3.14
-`
+```
 ## References
   
 CppCon 2014: Walter E. Brown "Modern Template Metaprogramming: A Compendium, Part I"
