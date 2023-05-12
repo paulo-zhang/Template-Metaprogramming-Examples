@@ -59,6 +59,8 @@ template<typename T, typename P, typename ...Ts> struct is_unique<T, P, Ts...>{
 ```
 
 ## 3 ways to check whether there is a public method called 'test'
+
+### 1. A NULL paramter could be accepted by a method as a pointer
 ```
 template<typename T> struct has_member_test_v1 {
 	private:
@@ -69,7 +71,9 @@ template<typename T> struct has_member_test_v1 {
 	public:
 	enum{value = check<T>(NULL)};
 };
-
+```
+### 2. Use a redundant default template parameter
+```
 template<typename T> struct has_member_test_v2 {
 	private:
 	static constexpr false_type check(...); // Only yield return type, no need to implement.
@@ -78,7 +82,9 @@ template<typename T> struct has_member_test_v2 {
 	public:
 	enum{value = decltype(check(declval<T>()))::value};
 };
-
+```
+### 3. Remove checking method from 2.
+```
 template<typename T, typename _ = void> // 3. A redundant typed template parameter.
 struct has_member_test_v3 { enum{value = false}; };
 
@@ -88,12 +94,15 @@ struct has_member_test_v3<T, void_t<decltype(&T::test)>> { // 3. The redundant t
 };
 ```
 ## 4 ways to check whether a type is a pointer
+### 1. Use function to check object directly
 ```
 struct is_pointer_v1 {
 	static constexpr bool check(...){return false;}
 	template<typename U> static constexpr bool check(U*) {return true;} // 1. Function check object.
 };
-
+```
+### 2. Use declval\<T\>() to create the object, and pass it to the method.
+```
 template<typename T>
 struct is_pointer_v2 {
 	private:
@@ -102,10 +111,14 @@ struct is_pointer_v2 {
 	public:
 	enum{value = decltype(check(declval<T>()))::value}; // declval<T>() to create the object, and pass it to the method.
 };
-
+```
+### 3. Use template specilization for pointer
+```
 template<typename T> struct is_pointer_v3{enum{value = false};};
 template<typename T> struct is_pointer_v3<T*>{enum{value = true};}; // template specilization.
-
+```
+### 4. Try to dereference the type
+```
 template<typename T, typename = void> struct is_pointer_v4{enum{value = false};};
 template<typename T> struct is_pointer_v4<T, void_t<decltype(*declval<T>())>>{enum{value = true};}; // Try to dereference the type, and change the type to void type so that we don't need to supply the parameter.
 ```
